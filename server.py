@@ -36,6 +36,33 @@ def show_users():
     all_users = crud.get_all_users()
     return render_template("all_users.html", users = all_users)
 
+@app.route("/users", methods=['POST'])
+def register_user():
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    if crud.get_user_by_email(email):
+        flash("Account already exists")
+    else:
+        new_user = crud.create_user(email, password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash("Account was made")
+    
+    return redirect("/")
+
+@app.route("/login", methods=['POST'])
+def login():
+    email = request.form.get("email")
+    password = request.form.get("password")
+    potential_user = crud.get_user_by_email(email)
+    if potential_user.password == password:
+        session['user_id'] = potential_user.user_id
+        flash('Logged in!')
+    else:
+        flash('Not logged in!')
+    return redirect("/")
+
 @app.route("/users/<user_id>")
 def user_details(user_id):
     """Show details of a single user."""

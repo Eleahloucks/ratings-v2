@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ movie.title }} - Rating{% endblock %}
+
+{% block body %}
+<form action = "/movies/{{movie.movie_id}}/rating" method = "POST">
+    <label for="ratings-form">How many stars would you rate this movie?</label>
+    <select name ="ratings-form" id="ratings-form">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    <input type="submit">
+</form>
+{% endblock %}

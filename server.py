@@ -29,7 +29,28 @@ def movie_details(movie_id):
     """Show details of a single movie."""
     movie = crud.get_movie_by_id(movie_id)
     return render_template("movie_details.html", movie = movie)
+
+@app.route("/movies/<movie_id>/rating")
+def movie_rating_page(movie_id):
+    """Rate the selected movie."""
+    movie = crud.get_movie_by_id(movie_id)
+    return render_template("rating.html", movie = movie)
 # Replace this with routes and view functions!
+
+@app.route("/movies/<movie_id>/rating", methods=['POST'])
+def add_rating(movie_id):
+    rating = int(request.form.get('ratings-form'))
+    user_session = crud.get_user_by_id(session['user_id'])
+    movie_session = crud.get_movie_by_id(movie_id)
+
+    rating_session = crud.create_rating(user_session, movie_session, rating)
+    db.session.add(rating_session)
+    db.session.commit()
+    flash("Thanks for rating!")
+    
+    return redirect("/")
+
+
 
 @app.route("/users")
 def show_users():

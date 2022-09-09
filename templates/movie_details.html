@@ -8,6 +8,8 @@
 <p>
   {{ movie.overview }}
 </p>
+<a href = '/movies/{{movie.movie_id}}/rating'> {{ movie.title }} Rating </a>
 
 <img src="{{ movie.poster_path }}">
+
 {% endblock %}

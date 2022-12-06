@@ -9,10 +9,18 @@ import crud
 import model
 import server
 
+##seed db hosts sample data in db
+
+#getting rid of db in case its filled with junk
 os.system("dropdb ratings")
+#creating a db in psql so we have something to connect to and store data
 os.system('createdb ratings')
+#connecting to db
 model.connect_to_db(server.app)
+#tells sqlalchemy to create all the tables
 model.db.create_all()
+
+
 #load movie data from JSON file
 with open('data/movies.json') as f:
     movie_data = json.loads(f.read())
@@ -31,7 +39,7 @@ for movie in movie_data:
     #formate datetimeobject
     format = "%Y-%m-%d"
     release_date_as_datet = datetime.strptime(release_date_as_str, format)
-    
+
     #creates movie from function in crud
     movie_object = crud.create_movie(title, overview, release_date_as_datet, poster_path)
     movies_in_db.append(movie_object)

@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, Movie, Rating, connect_to_db
+from model import db, User, connect_to_db
 
 def create_user(email, password):
     """Create and return a new user."""
